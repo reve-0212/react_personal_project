@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CommentListItem from "./CommentListItem.jsx";
+import React, {useEffect, useState} from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const Wrapper = styled.div`
 
 function CommentList(props) {
   const {comments} = props;
-
+  
   return (
     <div className={"w-100"}>
       {comments.map((comment, index) => {

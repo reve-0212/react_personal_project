@@ -27,7 +27,7 @@ CREATE TABLE `react_blog` (
   `title` varchar(45) DEFAULT NULL,
   `contents` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `react_blog` (
 
 LOCK TABLES `react_blog` WRITE;
 /*!40000 ALTER TABLE `react_blog` DISABLE KEYS */;
-INSERT INTO `react_blog` VALUES (1,'asdf','asdf'),(2,'qwer','qwer'),(3,'zxcv','zxcv');
+INSERT INTO `react_blog` VALUES (5,'ㅁㄴㅇㄹㅁㄴㅇㄴㅇ','ㅁㄴㅇㄹ'),(6,'ㅁㄴㅇㅁㄴㅇ','ㅁㄴㅁㅇ'),(7,'ㄴㅇㄴㄹ','ㄴㅇㄴㅇㄹ');
 /*!40000 ALTER TABLE `react_blog` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-18 16:32:51
+-- Dump completed on 2025-04-21 15:35:04

@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import {useNavigate} from "react-router-dom";
-import TextInput from "../ui/TextInput.jsx";
+import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "react-bootstrap";
-import axios from "axios";
+import CommentList from "../list/CommentList.jsx";
+import TextInput from "../ui/TextInput.jsx";
 import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -22,29 +23,45 @@ const Container = styled.div`
     margin-bottom: 16px;
   }`;
 
-function PostWritePage() {
+
+function PostUpdatePage() {
   const navigate = useNavigate();
+  const {postId} = useParams();
 
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
-  const writeBlog = () => {
-    if (title == "" || contents == "") {
-      alert("제목 혹은 내용을 작성해주세요")
-    } else {
-      console.log(title)
-      console.log(contents)
+  useEffect(() => {
+    axios.all([
+      axios.get(`http://localhost:8081/post/${postId}`),
+    ])
+      .then(axios.spread((res1, res2) => {
+          console.log(res1.data);
+          setTitle(res1.data.title);
+          setContents(res1.data.contents);
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [postId])
 
-      axios.put("http://localhost:8081/write", null, {
-        params: {title: title, contents: contents},
-      }).then((res) => {
+  const updateBlog = () => {
+    // 주소 들어간 뒤에 데이터 넣기
+    axios.patch(`http://localhost:8081/update`, {
+      id: postId,
+      title: title,
+      contents: contents
+    })
+      .then(res => {
         console.log(res)
-      }).catch((err) => {
-        console.log(err)
+      })
+      .catch((err) => {
+        console.log(err);
       })
 
-      location.href = "http://localhost:5173"
-    }
+    alert("글 수정 완료")
+    location.href = "http://localhost:5173";
   }
 
   return (
@@ -68,11 +85,11 @@ function PostWritePage() {
             }}/>
 
           <Button
-            onClick={() => writeBlog()}>글 작성하기</Button>
+            onClick={() => updateBlog()}>글 수정하기</Button>
         </Container>
       </Wrapper>
     </div>
   );
 }
 
-export default PostWritePage
+export default PostUpdatePage

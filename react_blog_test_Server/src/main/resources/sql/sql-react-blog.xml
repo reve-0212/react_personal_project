@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.react_blog_test_server.mapper.BlogMapper">
+
+  <select id="getAllBlogList" resultType="com.example.react_blog_test_server.dto.ReactBlogDTO">
+    select * from react_blog order by id desc
+  </select>
+
+  <select id="getPostById" resultType="com.example.react_blog_test_server.dto.ReactBlogDTO">
+    select * from react_blog where id = #{id}
+  </select>
+
+  <select id="getAllCommentList" resultType="com.example.react_blog_test_server.dto.ReactCommentDTO">
+    select * from react_comment where blog_id = #{id}
+  </select>
+
+  <insert id="writeBoard" parameterType="String">
+    insert into react_blog(title, contents) values (#{title},#{contents})
+  </insert>
+
+  <delete id="deletePostById" parameterType="Int">
+    delete from react_blog where id = #{id}
+  </delete>
+
+  <update id="updatePostById" parameterType="map">
+    update react_blog set title = #{title}, contents = #{contents} where id=#{id}
+  </update>
+
+  <insert id="writeComment" parameterType="map">
+    insert into react_comment(blog_id, title) values (#{blogId},#{title});
+  </insert>
+
+  <delete id="deleteComment" parameterType="int">
+    delete from react_comment where id=#{id};
+  </delete>
+
+  <update id="updateComment" parameterType="map">
+    update react_comment set title = #{title} where id = #{id}
+  </update>
+</mapper>

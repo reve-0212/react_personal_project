@@ -28,8 +28,8 @@ CREATE TABLE `react_comment` (
   `title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `blog_id_idx` (`blog_id`),
-  CONSTRAINT `blog_id` FOREIGN KEY (`blog_id`) REFERENCES `react_blog` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `blog_id` FOREIGN KEY (`blog_id`) REFERENCES `react_blog` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `react_comment` (
 
 LOCK TABLES `react_comment` WRITE;
 /*!40000 ALTER TABLE `react_comment` DISABLE KEYS */;
-INSERT INTO `react_comment` VALUES (1,1,'asdf'),(2,2,'zxcv'),(3,3,'qwer');
+INSERT INTO `react_comment` VALUES (18,5,'ㄴㅇㄹㄴㅇㄹ'),(23,7,'sdfdsfsdff'),(24,7,'sdfsdfsdfsdfs');
 /*!40000 ALTER TABLE `react_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-18 16:32:51
+-- Dump completed on 2025-04-21 15:35:04

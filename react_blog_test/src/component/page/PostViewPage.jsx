@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import {useNavigate, useParams} from "react-router-dom";
-import {useState} from "react";
 import {Button} from "react-bootstrap";
 import CommentList from "../list/CommentList.jsx";
 import TextInput from "../ui/TextInput.jsx";
-import data from "../../data.js"
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -48,12 +48,64 @@ const CommentLabel = styled.p`
 function PostViewPage() {
   const navigate = useNavigate();
   const {postId} = useParams();
+  const [post, setPost] = useState(null);
+  const [comment, setComment] = useState([]);
+  const [moreComment, setMoreComment] = useState("");
 
-  const post = data.find((item) => {
-    return item.id === parseInt(postId)
-  });
+  useEffect(() => {
+    axios.all([
+      axios.get(`http://localhost:8081/post/${postId}`),
+      axios.get(`http://localhost:8081/comment/${postId}`),
+    ])
+      .then(axios.spread((res1, res2) => {
+          setPost(res1.data);
+          setComment(res2.data);
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
 
-  const [comment, setComment] = useState("");
+  const deletePost = () => {
+    axios.delete(`http://localhost:8081/delete/${postId}`, {})
+      .then(res => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+    alert("게시글이 삭제되었습니다")
+
+    location.href = "http://localhost:5173"
+  }
+
+  const showMoreComment = (event) => {
+    setMoreComment(event.target.value);
+  }
+
+  const writeMoreComment = () => {
+    if(moreComment == ""){
+      alert("댓글의 내용을 입력해주세요")
+    } else{
+      console.log(post.id)
+
+      axios.put(`http://localhost:8081/writeComment`, {
+        blogId: post.id,
+        title: moreComment,
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
+      alert("댓글 작성 완료")
+      location.reload(true);
+    }
+  }
 
   return (
     <Wrapper>
@@ -67,34 +119,30 @@ function PostViewPage() {
         <Button
           className={"btn btn-secondary me-2"}
           onClick={() =>
-            navigate("/")}>수정하기
+            navigate(`/post/${postId}/update`)}>수정하기
         </Button>
 
         <Button
           className={"btn btn-warning"}
-          onClick={() =>
-            navigate("/")}>삭제하기
+          onClick={() => deletePost()}>삭제하기
         </Button>
 
         <PostContainer>
-          <TitleText>{post.title}</TitleText>
-          <ContentText>{post.content}</ContentText>
+          <TitleText>{post?.title}</TitleText>
+          <ContentText>{post?.content}</ContentText>
         </PostContainer>
 
         <CommentLabel>댓글</CommentLabel>
-        <CommentList comments={post.comments}/>
+        <CommentList comments={comment}/>
 
         <TextInput
           height={40}
-          value={comment}
+          value={moreComment}
           onChange={(event) => {
-            setComment(event.target.value);
+            showMoreComment(event);
           }}/>
 
-        <Button
-          onClick={() => {
-            navigate("/");
-          }}>댓글 작성하기</Button>
+        <Button onClick={writeMoreComment}>댓글 작성하기</Button>
       </Container>
     </Wrapper>
   );
